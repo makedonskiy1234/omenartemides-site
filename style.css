@@ -41,6 +41,10 @@ img { display: block; max-width: 100%; height: auto; -webkit-user-drag: none; us
 a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: .22em; }
 button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
 :focus-visible { outline: 1px solid var(--fg); outline-offset: 4px; }
+/* No blue flash or selection when a finger taps a photo; keyboard focus ring stays. */
+html { -webkit-tap-highlight-color: transparent; }
+button, .open, .w-card, .chapters a, .mosaic, .hero-name { user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+:focus:not(:focus-visible) { outline: none; }
 h1, h2 { margin: 0; font-family: var(--serif); font-weight: 400; line-height: 1; letter-spacing: -.01em; }
 .skip { position: absolute; left: -999px; }
 .skip:focus { left: 1rem; top: 1rem; background: var(--fg); color: var(--bg); padding: .5rem 1rem; z-index: 50; }

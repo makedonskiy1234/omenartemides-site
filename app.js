@@ -1,3 +1,6 @@
+// Footer year follows the visitor's clock, so it never needs editing.
+document.querySelectorAll("[data-year]").forEach(el => { el.textContent = new Date().getFullYear(); });
+
 (() => {
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 

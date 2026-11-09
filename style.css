@@ -61,10 +61,15 @@ h1, h2 { margin: 0; font-family: var(--serif); font-weight: 400; line-height: 1;
 .nav a[aria-current] { text-decoration: underline; }
 
 .foot {
-  display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
-  margin: clamp(4rem, 8vw, 7rem) var(--pad) 4.5rem; padding-top: 1.25rem; border-top: 1px solid var(--hair);
-  font-size: .875rem; color: var(--muted); scroll-snap-align: end;
+  display: flex; justify-content: space-between; align-items: baseline; gap: .6rem 2rem; flex-wrap: wrap;
+  margin: clamp(5rem, 9vw, 8rem) var(--pad) 0; padding: 1.4rem 0 clamp(5.5rem, 8vw, 7rem); border-top: 1px solid var(--hair);
+  color: var(--muted);
 }
+.foot-mark { margin: 0; font-family: var(--serif); font-size: clamp(1rem, 1.2vw, 1.2rem); letter-spacing: .02em; }
+.foot-sep { opacity: .55; }
+.foot-mail { font-size: .9rem; letter-spacing: .02em; text-decoration: none; background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: color .2s, background-size .3s; }
+.foot-mail:hover, .foot-mail:focus-visible { color: var(--fg); background-size: 100% 1px; }
+@media (max-width: 640px) { .foot { flex-direction: column; gap: .5rem; } }
 
 /* ---------- start page ---------- */
 .p-home { height: 100svh; overflow: hidden; }

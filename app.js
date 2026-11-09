@@ -174,7 +174,7 @@ document.querySelectorAll("[data-year]").forEach(el => { el.textContent = new Da
   const EASE = "cubic-bezier(.22,.7,.18,1)";
   // transform that puts the viewer image exactly over a thumbnail
   const fromThumb = (t) => {
-    const r0 = t.getBoundingClientRect(), r1 = lbImg.getBoundingClientRect();
+    const r0 = (t.closest(".open") || t).getBoundingClientRect(), r1 = lbImg.getBoundingClientRect();
     if (!r0.width || !r1.width) return null;
     const sc = Math.sqrt((r0.width * r0.height) / (r1.width * r1.height));
     const dx = r0.left + r0.width / 2 - (r1.left + r1.width / 2);

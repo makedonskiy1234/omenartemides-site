@@ -137,6 +137,12 @@ h1, h2 { margin: 0; font-family: var(--serif); font-weight: 400; line-height: 1;
 .t-item { margin: 0; }
 .t-item.wide { grid-column: 1 / -1; }
 .t-item:not(.wide) .open img { aspect-ratio: var(--crop, 3/4); object-fit: cover; }
+/* zoomed-in crop: enlarge from the corner, then slide so the focus point stays where it was chosen */
+.t-item:not(.wide) .open:has(img[style*="--z"]) { overflow: hidden; }
+.t-item:not(.wide) .open img[style*="--z"] {
+  transform-origin: 0 0;
+  transform: translate(calc(-1% * (var(--z) - 1) * var(--fx)), calc(-1% * (var(--z) - 1) * var(--fy))) scale(var(--z));
+}
 .t-item figcaption {
   margin-top: .9rem; text-align: center; color: var(--muted);
   font-family: var(--serif); font-size: clamp(1rem, 1.2vw, 1.2rem); line-height: 1.4; letter-spacing: .02em; padding: 0 1rem;

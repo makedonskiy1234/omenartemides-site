@@ -192,6 +192,15 @@ h1, h2 { margin: 0; font-family: var(--serif); font-weight: 400; line-height: 1;
 .about { padding: 0 var(--pad); display: grid; grid-template-columns: 1fr minmax(0, 40rem); }
 .about-text { grid-column: 2; font-size: 1.15rem; }
 .about-text p { margin: 0 0 1.1em; }
+.about-text .about-lede { font-family: var(--serif); font-size: clamp(1.7rem, 3vw, 2.4rem); line-height: 1.15; margin-bottom: .9em; }
+.about-lede span { display: block; }
+.about-h { font-family: var(--serif); font-size: clamp(1.3rem, 2vw, 1.6rem); margin: 2.2em 0 .9em; }
+.awards { list-style: none; margin: 0 0 2em; padding: 0; border-top: 1px solid var(--hair); }
+.awards li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .3rem 1.5rem; padding: .75rem 0; border-bottom: 1px solid var(--hair); font-size: 1rem; }
+.aw-what { color: var(--muted); }
+.about-text .about-focus { font-size: 1rem; }
+.about-focus span { color: var(--muted); margin-right: .8em; }
+@media (max-width: 640px) { .awards li { grid-template-columns: 1fr; } }
 .clients { color: var(--muted); }
 .contact { padding: clamp(5rem, 10vw, 9rem) var(--pad) 0; }
 .contact h2 { font-size: clamp(2.2rem, 4.5vw, 4rem); margin-bottom: 1.5rem; }

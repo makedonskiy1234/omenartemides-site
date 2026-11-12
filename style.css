@@ -191,6 +191,8 @@ h1, h2 { margin: 0; font-family: var(--serif); font-weight: 400; line-height: 1;
 /* ---------- about ---------- */
 .about { padding: 0 var(--pad); display: grid; grid-template-columns: 1fr minmax(0, 40rem); }
 .about-text { grid-column: 2; font-size: 1.15rem; }
+.about-photo { grid-column: 1; grid-row: 1; margin: 0; padding-right: clamp(2rem, 6vw, 6rem); align-self: start; }
+.about-photo img { width: 100%; max-width: 22rem; height: auto; }
 .about-text p { margin: 0 0 1.1em; }
 .about-text .about-lede { font-family: var(--serif); font-size: clamp(1.7rem, 3vw, 2.4rem); line-height: 1.15; margin-bottom: .9em; }
 .about-lede span { display: block; }
@@ -261,6 +263,8 @@ h1, h2 { margin: 0; font-family: var(--serif); font-weight: 400; line-height: 1;
   .g-head p { display: none; }
   .about { grid-template-columns: 1fr; }
   .about-text { grid-column: auto; }
+  .about-photo { grid-column: auto; grid-row: auto; padding-right: 0; margin-bottom: 2.5rem; }
+  .about-photo img { max-width: min(78vw, 20rem); }
   .tgrid { grid-template-columns: 1fr; gap: 3rem; }
   .t-item.wide { grid-column: auto; }
   .chapters { grid-template-columns: 1fr; }

@@ -198,8 +198,9 @@ h1, h2 { margin: 0; font-family: var(--serif); font-weight: 400; line-height: 1;
 .awards { list-style: none; margin: 0 0 2em; padding: 0; border-top: 1px solid var(--hair); }
 .awards li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .3rem 1.5rem; padding: .75rem 0; border-bottom: 1px solid var(--hair); font-size: 1rem; }
 .aw-what { color: var(--muted); }
+.aw-sep { display: none; }
 .about-text .about-focus { font-size: 1rem; }
-.about-focus span { color: var(--muted); margin-right: .8em; }
+.about-focus span { color: var(--muted); margin-right: .3em; }
 @media (max-width: 640px) { .awards li { grid-template-columns: 1fr; } }
 .clients { color: var(--muted); }
 .contact { padding: clamp(5rem, 10vw, 9rem) var(--pad) 0; }

@@ -55,7 +55,8 @@ document.querySelectorAll("[data-year]").forEach(el => { el.textContent = new Da
       while (vh < colW * 0.55 && m > 1) { m--; vh = (L - th - g - m * g) / m; }
       const watches = data.watch.length ? data.watch : data.view;
       const K = Math.max(2, Math.ceil(watches.length / 2));
-      const speed = H / 38;                         // px per second
+      const phone = ncol === 2;
+      const speed = (H / 38) * (phone ? 0.7 : 0.8); // px per second: a calm drift, slowest on phones
       let v = 0;
       const nextView = () => data.view[v++ % data.view.length];
 
@@ -81,7 +82,8 @@ document.querySelectorAll("[data-year]").forEach(el => { el.textContent = new Da
         run.style.setProperty("--len", len + "px");
         const sp = isWatch ? speed : speed * (c === 0 ? 0.85 : 1.15);
         run.style.setProperty("--dur", (len / sp).toFixed(2) + "s");
-        run.style.setProperty("--anim", isWatch ? "m-up" : "m-down");
+        // phones: the two columns travel in opposite directions (left down, right up)
+        run.style.setProperty("--anim", phone ? (c === 0 ? "m-down" : "m-up") : isWatch ? "m-up" : "m-down");
         if (isWatch && watchCols.indexOf(c) === 1) run.style.setProperty("--delay", (-(L / 2) / sp).toFixed(2) + "s");
         if (reduced) run.style.animation = "none";
         col.appendChild(run);

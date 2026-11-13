@@ -189,9 +189,9 @@ h1, h2 { margin: 0; font-family: var(--serif); font-weight: 400; line-height: 1;
 .next:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .15em; }
 
 /* ---------- about ---------- */
-.about { padding: 0 var(--pad); display: grid; grid-template-columns: 1fr minmax(0, 40rem); }
+.about { padding: 0 var(--pad); display: grid; grid-template-columns: minmax(0, 22rem) minmax(0, 40rem); column-gap: clamp(3rem, 6vw, 7rem); justify-content: start; }
 .about-text { grid-column: 2; font-size: 1.15rem; }
-.about-photo { grid-column: 1; grid-row: 1; margin: 0; padding-right: clamp(2rem, 6vw, 6rem); align-self: start; }
+.about-photo { grid-column: 1; grid-row: 1; margin: 0; align-self: start; }
 /* a light panel offset down and to the right behind the portrait */
 .ap-frame { --off: clamp(.75rem, 1.4vw, 1.25rem); position: relative; display: inline-block; width: 100%; max-width: 22rem;
   margin: 0 var(--off) var(--off) 0; }
@@ -267,7 +267,7 @@ h1, h2 { margin: 0; font-family: var(--serif); font-weight: 400; line-height: 1;
   .g-head p { display: none; }
   .about { grid-template-columns: 1fr; }
   .about-text { grid-column: auto; }
-  .about-photo { grid-column: auto; grid-row: auto; padding-right: 0; margin-bottom: 2.5rem; }
+  .about-photo { grid-column: auto; grid-row: auto; margin-bottom: 2.5rem; }
   .ap-frame { width: calc(100% - var(--off)); max-width: 24rem; }
   .tgrid { grid-template-columns: 1fr; gap: 3rem; }
   .t-item.wide { grid-column: auto; }

@@ -38,7 +38,7 @@ document.querySelectorAll("[data-year]").forEach(el => { el.textContent = new Da
     let built = "";
     const build = () => {
       const W = innerWidth, H = innerHeight;
-      const ncol = W >= 1000 ? 4 : W >= 640 ? 3 : 2;
+      const ncol = W >= 1000 && W > H ? 4 : W >= 640 ? 3 : 2;   // portrait tablets: 3 columns, there are not enough photos to fill 4 tall ones
       const key = `${ncol}:${Math.round(W / 50)}:${Math.round(H / 50)}`;
       if (key === built) return;
       built = key;
@@ -54,11 +54,30 @@ document.querySelectorAll("[data-year]").forEach(el => { el.textContent = new Da
       let vh = (L - th - g - m * g) / m;            // filler height so the cycle is exactly L
       while (vh < colW * 0.55 && m > 1) { m--; vh = (L - th - g - m * g) / m; }
       const watches = data.watch.length ? data.watch : data.view;
-      const K = Math.max(2, Math.ceil(watches.length / 2));
       const phone = ncol === 2;
       const speed = (H / 38) * (phone ? 0.7 : 0.8); // px per second: a calm drift, slowest on phones
-      let v = 0;
-      const nextView = () => data.view[v++ % data.view.length];
+      // Each column gets its own share of the landscape photos, so the same picture
+      // never shows in two columns at once. Plain columns need more photos, so they are dealt first.
+      const order = [...Array(ncol).keys()].sort((a, b) => watchCols.includes(a) - watchCols.includes(b));
+      const pools = Array.from({ length: ncol }, () => []);
+      data.view.forEach((p, i) => pools[order[i % ncol]].push(p));
+      // a plain column must be taller than the screen, or its loop brings a photo back while it is still visible:
+      // top it up from columns that can spare a photo (watch columns only need a couple per cycle)
+      const colLen = (pl) => pl.reduce((s, p) => s + colW * p.h / p.w + g, 0);
+      const need = H + colW * 1.6 + g;
+      const spare = (c, pl) => watchCols.includes(c) ? pl.length > m + 2
+        : pl.length > 1 && colLen(pl.slice(0, -1)) >= need;
+      order.filter((c) => !watchCols.includes(c)).forEach((c) => {
+        while (colLen(pools[c]) < need) {
+          const d = [...Array(ncol).keys()].filter((x) => x !== c && spare(x, pools[x]))
+            .sort((x, y) => pools[y].length - pools[x].length)[0];
+          if (d === undefined) break;
+          pools[c].push(pools[d].pop());
+        }
+      });
+      pools.forEach((pl, c) => { if (!pl.length) pl.push(data.view[c % data.view.length]); });
+      const cursor = new Array(ncol).fill(0);
+      const nextView = (c) => pools[c][cursor[c]++ % pools[c].length];
 
       for (let c = 0; c < ncol; c++) {
         const col = document.createElement("div");
@@ -69,13 +88,22 @@ document.querySelectorAll("[data-year]").forEach(el => { el.textContent = new Da
         const seq = [];                             // [photo, height]
         if (isWatch) {
           const w0 = watchCols.indexOf(c);
-          for (let k = 0; k < K; k++) {
-            seq.push([watches[(k * 2 + w0) % watches.length], th]);
-            for (let i = 0; i < m; i++) seq.push([nextView(), vh]);
+          // the two watch columns share the watches out between them (no watch on screen twice),
+          // and each column runs enough cycles to use its watches and photos a whole number of times
+          let wp = watches.filter((_, i) => i % 2 === w0);
+          if (!wp.length) wp = watches;
+          let kc = 1;
+          while ((kc % wp.length || (kc * m) % pools[c].length) && kc < 40) kc++;
+          for (let k = 0; k < kc; k++) {
+            seq.push([wp[k % wp.length], th]);
+            for (let i = 0; i < m; i++) seq.push([nextView(c), vh]);
           }
         } else {
           let len = 0;
-          while (len < H * 1.6) { const p = nextView(); const h = colW * p.h / p.w; seq.push([p, h]); len += h + g; }
+          // whole rounds of this column's photos, so the loop never shows one twice in a row
+          do {
+            pools[c].forEach((p) => { const h = colW * p.h / p.w; seq.push([p, h]); len += h + g; });
+          } while (len < H * 1.6);
         }
         const len = seq.reduce((s, [, h]) => s + h + g, 0);
         for (let r = 0; r < 2; r++) seq.forEach(([p, h]) => run.appendChild(tile(p, colW, h)));   // twice: seamless loop
